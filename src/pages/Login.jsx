@@ -18,7 +18,7 @@ export const LoginPage = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     login({
-      email: data.get("email"),
+      username: data.get("email"),
       password: data.get("password")
     });
   };

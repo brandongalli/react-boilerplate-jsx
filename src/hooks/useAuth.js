@@ -1,30 +1,33 @@
 import { createContext, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../config/config";
+import { postAPI } from "../utils/api";
 import { useLocalStorage } from "./useLocalStorage";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children, userData }) => {
-  const [user, setUser] = useLocalStorage("user", userData);
+export const AuthProvider = ({ children, tokenData }) => {
+  const [tokens, setTokens] = useLocalStorage("tokens", tokenData);
   const navigate = useNavigate();
 
   const login = async (data) => {
-    setUser(data);
+    const tokens = await postAPI(`${BACKEND_URL}/api/token/`, data);
+    setTokens(tokens);
     navigate("/", { replace: true });
   };
 
   const logout = () => {
-    setUser(null);
+    setTokens(null);
     navigate("/login", { replace: true });
   };
 
   const value = useMemo(
     () => ({
-      user,
+      tokens,
       login,
       logout
     }),
-    [user]
+    [tokens]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

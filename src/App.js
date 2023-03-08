@@ -14,19 +14,15 @@ import {
   
   // ideally this would be an API call to server to get logged in user data
   
-  const getUserData = () =>
-    new Promise((resolve) =>
-      setTimeout(() => {
-        const user = window.localStorage.getItem("user");
-        resolve(user);
-      }, 3000)
-    );
+  const getTokenData = () =>{
+    return window.localStorage.getItem("tokens");
+  }
   
   export const router = createBrowserRouter(
     createRoutesFromElements(
       <Route
         element={<AuthLayout />}
-        loader={() => defer({ userPromise: getUserData() })}
+        loader={() => defer({ tokenPromise: getTokenData() })}
       >
         <Route element={<PublicLayout />}>
           <Route path="/login" element={<LoginPage />} />

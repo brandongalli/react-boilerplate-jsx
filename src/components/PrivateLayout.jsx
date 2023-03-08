@@ -3,10 +3,10 @@ import { useAuth } from "../hooks/useAuth";
 import { AppBar } from "./AppBar";
 
 export const PrivateLayout = () => {
-  const { user } = useAuth();
+  const { tokens } = useAuth();
   const outlet = useOutlet();
 
-  if (!user) {
+  if (!tokens) {
     return <Navigate to="/login" />;
   }
 
